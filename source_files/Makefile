@@ -42,7 +42,7 @@ $WIN64 # windows compiler and flags
 $WIN64 WIN64_CC=x86_64-w64-mingw32-gcc
 $WIN64 WIN64_C_FLAGS=-Wall -std=c99
 $WIN64 WIN64_L_FLAGS=-static
-$WIN64 
+$WIN64
 # targets
 
 default: linux
@@ -64,6 +64,9 @@ $CUDA
 $WIN64 FIRESTARTER_win64.exe: main_win64.o x86_win64.o init_functions_win64.o help_win64.o ${ASM_FUNCTION_OBJ_FILES_WIN}
 $WIN64 $TAB ${WIN64_CC} ${OPT_STD} ${WIN64_C_FLAGS} -o FIRESTARTER_win64.exe main_win64.o x86_win64.o init_functions_win64.o help_win64.o ${ASM_FUNCTION_OBJ_FILES_WIN} ${WIN64_L_FLAGS}
 $WIN64
+libfirestarter.a: init_functions.o generic.o ${ASM_FUNCTION_OBJ_FILES}
+$TAB ar rcs libfirestarter.a init_functions.o generic.o ${ASM_FUNCTION_OBJ_FILES}
+
 generic.o: generic.c cpu.h
 $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -c generic.c
 
@@ -82,7 +85,7 @@ $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -c work.c
 watchdog.o: watchdog.h
 $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -c watchdog.c -lrt -lm
 
-help.o: help.c help.h 
+help.o: help.c help.h
 $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -c help.c
 
 $WIN64 main_win64.o: main_win64.c work.h cpu.h
@@ -90,7 +93,7 @@ $WIN64 $TAB ${WIN64_CC} ${OPT_STD} ${WIN64_C_FLAGS} -c main_win64.c
 $WIN64
 $WIN64 x86_win64.o: x86_win64.c cpu.h
 $WIN64 $TAB ${WIN64_CC} ${OPT_STD} ${WIN64_C_FLAGS} -c x86_win64.c
-$WIN64 
+$WIN64
 $WIN64 init_functions_win64.o: init_functions.c work.h cpu.h
 $WIN64 $TAB ${WIN64_CC} ${OPT_STD} ${WIN64_C_FLAGS} -c init_functions.c -o init_functions_win64.o
 $WIN64
@@ -103,7 +106,7 @@ $CUDA
 $CUDA main_cuda.o: main.c work.h cpu.h
 $CUDA $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -o main_cuda.o -c main.c -DCUDA
 $CUDA
-$CUDA help_cuda.o: help.c help.h 
+$CUDA help_cuda.o: help.c help.h
 $CUDA $TAB ${LINUX_CC} ${OPT_STD} ${LINUX_C_FLAGS} -o help_cuda.o -c help.c -DCUDA
 $CUDA
 $TEMPLATE Makefile.template_rules(dest,templates,version)
@@ -113,4 +116,3 @@ $TAB rm -f *.o
 $TAB rm -f FIRESTARTER
 $CUDA $TAB rm -f FIRESTARTER_CUDA
 $WIN64 $TAB rm -f FIRESTARTER_win64.exe
-
