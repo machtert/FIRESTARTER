@@ -20,10 +20,10 @@
 ###############################################################################
 
 # linux compiler and flags
-LINUX_CC=gcc
+LINUX_CC?=gcc
 # tracing options (VampirTrace/Score-P):
-#LINUX_CC=vtcc -vt:cc gcc -vt:inst manual -DVTRACE -DENABLE_VTRACING
-#LINUX_CC=scorep --user --nocompiler gcc -DENABLE_SCOREP
+#CC=vtcc -vt:cc gcc -vt:inst manual -DVTRACE -DENABLE_VTRACING
+#CC=scorep --user --nocompiler gcc -DENABLE_SCOREP
 
 LINUX_C_FLAGS=-fomit-frame-pointer -Wall -std=c99 -I. -DAFFINITY -fPIC
 OPT_STD=-O2
@@ -45,7 +45,10 @@ $WIN64 WIN64_L_FLAGS=-static
 $WIN64
 # targets
 
-default: linux
+default: version linux
+
+version:
+$TAB ${LINUX_CC} --version
 
 linux: FIRESTARTER
 
